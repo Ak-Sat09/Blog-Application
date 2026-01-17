@@ -55,8 +55,4 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
-    @GetMapping("/test")
-    public String testApi() {
-        return "API is working!";
-    }
 }
