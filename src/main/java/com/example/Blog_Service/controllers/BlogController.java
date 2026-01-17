@@ -54,4 +54,9 @@ public class BlogController {
         List<Blog> blogs = service.getAll();
         return ResponseEntity.ok(blogs);
     }
+
+    @GetMapping("/test")
+    public String testApi() {
+        return "API is working!";
+    }
 }
