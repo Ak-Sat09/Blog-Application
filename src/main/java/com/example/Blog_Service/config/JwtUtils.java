@@ -19,7 +19,6 @@ public class JwtUtils {
         this.key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
-    // ✅ Validate JWT
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -32,7 +31,6 @@ public class JwtUtils {
         }
     }
 
-    // ✅ Return userId as Long directly
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -40,7 +38,7 @@ public class JwtUtils {
                 .parseClaimsJws(token)
                 .getBody();
 
-        Object userIdObj = claims.get("userId"); // "userId" must match the claim in your JWT
+        Object userIdObj = claims.get("userId");
         if (userIdObj instanceof Integer) {
             return ((Integer) userIdObj).longValue();
         } else if (userIdObj instanceof Long) {
