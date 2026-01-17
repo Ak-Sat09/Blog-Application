@@ -1,26 +1,26 @@
-name: Build & Push Docker Image
+name: CI/CD - Blog Service Docker
 
 on:
   push:
     branches:
-      - main   # trigger on pushes to main branch
+      - main
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Java (for building Spring Boot jar)
+      # 2️⃣ Set up Java 17
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
 
-      # 3️⃣ Build the jar
+      # 3️⃣ Build Spring Boot jar
       - name: Build Jar
         run: mvn clean package -DskipTests
 
@@ -33,8 +33,14 @@ jobs:
 
       # 5️⃣ Build Docker image
       - name: Build Docker image
-        run: docker build -t 8398963836/blog-service:1.0 .
+        run: docker build -t blog-service:latest .
 
-      # 6️⃣ Push Docker image to Docker Hub
+      # 6️⃣ Tag Docker image with Docker Hub username
+      - name: Tag Docker image
+        run: |
+          IMAGE_TAG=8398963836/blog-service:latest
+          docker tag blog-service:latest $IMAGE_TAG
+
+      # 7️⃣ Push Docker image to Docker Hub
       - name: Push Docker image
-        run: docker push 8398963836/blog-service:1.0
+        run: docker push 8398963836/blog-service:latest
